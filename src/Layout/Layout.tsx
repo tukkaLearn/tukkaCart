@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Navbar from "../Navbar";
+import Navbar from "../components/Navbar";
 import "./Layout.css";
 
 type Props = {
@@ -14,7 +14,9 @@ export default function Layout({ children }: Props) {
       <main className="content">{children}</main>
 
       <footer className="footer">
-        © tukka cart 2026 . All rights reserved.
+        <p> Made with ❤️ || सीता राम जी ||</p>
+        <p>© tukka cart 2026</p>
+        <p>|| राम नाम सत्य है ||</p>
       </footer>
     </div>
   );
