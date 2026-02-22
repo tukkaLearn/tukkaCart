@@ -1,3 +1,4 @@
+import { useAuth } from "../features/auth/useAuth";
 import type { Product } from "../types/product";
 import "./ProductCard.css";
 
@@ -7,6 +8,7 @@ type Props = {
 };
 
 export default function ProductCard({ product, onAdd }: Props) {
+  const { user } = useAuth();
   return (
     <div className="card">
       <img src={product.image} alt={product.title} />
@@ -18,10 +20,13 @@ export default function ProductCard({ product, onAdd }: Props) {
       </h3>
 
       <p className="price">${product.price}</p>
-
-      <button className="btn" onClick={onAdd}>
-        Add to Cart
-      </button>
+      {user ? (
+        <button className="btn" onClick={onAdd}>
+          Add to Cart
+        </button>
+      ) : (
+        <button className="btn">Login to add</button>
+      )}
     </div>
   );
 }

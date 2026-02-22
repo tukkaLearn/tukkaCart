@@ -12,7 +12,7 @@ const Home = () => {
     "https://fakestoreapi.com/products"
   );
 
-  const { dispatch } = useCart();
+  const { addToCart } = useCart();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -77,7 +77,7 @@ const Home = () => {
           <ProductCard
             key={product.id}
             product={product}
-            onAdd={() => dispatch({ type: "ADD", payload: product })}
+            onAdd={() => addToCart(product)}
           />
         ))}
       </div>

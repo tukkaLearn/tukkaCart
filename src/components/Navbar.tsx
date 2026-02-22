@@ -20,10 +20,7 @@ export default function Navbar() {
           Products
         </NavLink>
         <NavLink to="/cart" className="link">
-          Cart{" "}
-          <span className="badge">
-            {cart.reduce((a, i) => a + i.quantity, 0)}
-          </span>
+          Cart {cart.length > 0 && <span className="badge">{cart.length}</span>}
         </NavLink>
       </div>
 
