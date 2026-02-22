@@ -1,12 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { useCart } from "../features/cart/useCart";
+import { useAuth } from "../features/auth/useAuth";
 
-type Props = {
-  isLoggedIn: boolean;
-};
-
-export default function Navbar({ isLoggedIn }: Props) {
+export default function Navbar() {
+  const { logout, user } = useAuth();
   const { cart } = useCart();
   return (
     <nav className="navbar">
@@ -30,14 +28,19 @@ export default function Navbar({ isLoggedIn }: Props) {
       </div>
 
       <div className="auth">
-        {isLoggedIn ? (
-          <NavLink to="/profile" className="btn">
-            Profile
-          </NavLink>
-        ) : (
-          <NavLink to="/login" className="btn">
+        {!user ? (
+          <Link to="/login" className="btn">
             Login
-          </NavLink>
+          </Link>
+        ) : (
+          <>
+            <Link to="/profile" className="btn">
+              Profile
+            </Link>
+            <button onClick={logout} className="btn">
+              Logout
+            </button>
+          </>
         )}
       </div>
     </nav>

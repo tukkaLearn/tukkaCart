@@ -39,6 +39,7 @@
   border-radius: 6px;
   text-decoration: none;
   font-size: 14px;
+  margin-left: 10px;
 }
 
 .auth .btn:hover {

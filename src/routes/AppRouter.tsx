@@ -5,6 +5,8 @@ import Home from "../pages/Home";
 import Products from "../pages/Products";
 import Cart from "../pages/Cart";
 import Login from "../pages/Login";
+import ProtectedRoute from "./ProtectedRoute";
+import Profile from "../pages/Profile";
 
 export default function AppRouter() {
   return (
@@ -15,6 +17,14 @@ export default function AppRouter() {
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </BrowserRouter>

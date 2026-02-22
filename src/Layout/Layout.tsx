@@ -9,7 +9,7 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <div className="layout">
-      <Navbar isLoggedIn={false} />
+      <Navbar />
 
       <main className="content">{children}</main>
 
