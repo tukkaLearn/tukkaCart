@@ -5,6 +5,7 @@ import useFetch from "../hooks/useFetch";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 import { useCallback, useMemo, useState } from "react";
+import useDebounce from "../hooks/useDebounce";
 const Home = () => {
   const { data, loading, error } = useFetch<Product[]>(
     "https://fakestoreapi.com/products"
@@ -12,6 +13,7 @@ const Home = () => {
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const debouncedSearch = useDebounce(search, 500);
 
   const categories = useMemo(() => {
     if (!data) return [];
@@ -24,7 +26,7 @@ const Home = () => {
     return data.filter((product) => {
       const matchTitle = product.title
         .toLowerCase()
-        .includes(search.toLowerCase());
+        .includes(debouncedSearch.toLowerCase());
       console.log(category);
       const matchCategory =
         category.toLowerCase() === "all" ||
@@ -32,7 +34,7 @@ const Home = () => {
 
       return matchTitle && matchCategory;
     });
-  }, [data, search, category]);
+  }, [data, debouncedSearch, category]);
 
   const handleSearch = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
@@ -41,6 +43,7 @@ const Home = () => {
 
   const handleCategory = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value),
+
     []
   );
   if (loading) return <Loader />;
@@ -67,7 +70,6 @@ const Home = () => {
         </select>
         <p className="results">{filteredProducts.length} results found</p>
       </div>
-
       <div className="flex">
         {filteredProducts.map((product: Product) => (
           <ProductCard key={product.id} product={product} />
