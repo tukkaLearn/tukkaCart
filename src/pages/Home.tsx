@@ -4,14 +4,15 @@ import "./Home.css";
 import useFetch from "../hooks/useFetch";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import { useCallback, useMemo, useReducer, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
-import { cartReducer } from "../features/cart/cartReducer";
+import { useCart } from "../features/cart/useCart";
 const Home = () => {
   const { data, loading, error } = useFetch<Product[]>(
     "https://fakestoreapi.com/products"
   );
-  const [cart, dispatch] = useReducer(cartReducer, []);
+
+  const { dispatch } = useCart();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -50,8 +51,6 @@ const Home = () => {
   if (loading) return <Loader />;
   if (error) return <Error message={error} />;
   if (!data) return null;
-
-  console.log(cart);
 
   return (
     <div>

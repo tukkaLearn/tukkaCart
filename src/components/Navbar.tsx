@@ -1,12 +1,13 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
+import { useCart } from "../features/cart/useCart";
 
 type Props = {
-  cartCount: number;
   isLoggedIn: boolean;
 };
 
-export default function Navbar({ cartCount, isLoggedIn }: Props) {
+export default function Navbar({ isLoggedIn }: Props) {
+  const { cart } = useCart();
   return (
     <nav className="navbar">
       <NavLink to="/">
@@ -21,7 +22,10 @@ export default function Navbar({ cartCount, isLoggedIn }: Props) {
           Products
         </NavLink>
         <NavLink to="/cart" className="link">
-          Cart <span className="badge">{cartCount}</span>
+          Cart{" "}
+          <span className="badge">
+            {cart.reduce((a, i) => a + i.quantity, 0)}
+          </span>
         </NavLink>
       </div>
 
