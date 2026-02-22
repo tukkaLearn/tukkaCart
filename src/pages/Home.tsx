@@ -4,12 +4,14 @@ import "./Home.css";
 import useFetch from "../hooks/useFetch";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useReducer, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
+import { cartReducer } from "../features/cart/cartReducer";
 const Home = () => {
   const { data, loading, error } = useFetch<Product[]>(
     "https://fakestoreapi.com/products"
   );
+  const [cart, dispatch] = useReducer(cartReducer, []);
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -27,7 +29,6 @@ const Home = () => {
       const matchTitle = product.title
         .toLowerCase()
         .includes(debouncedSearch.toLowerCase());
-      console.log(category);
       const matchCategory =
         category.toLowerCase() === "all" ||
         product.category === category.toLowerCase();
@@ -49,6 +50,8 @@ const Home = () => {
   if (loading) return <Loader />;
   if (error) return <Error message={error} />;
   if (!data) return null;
+
+  console.log(cart);
 
   return (
     <div>
@@ -72,7 +75,11 @@ const Home = () => {
       </div>
       <div className="flex">
         {filteredProducts.map((product: Product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAdd={() => dispatch({ type: "ADD", payload: product })}
+          />
         ))}
       </div>
     </div>

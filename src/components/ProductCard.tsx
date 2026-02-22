@@ -3,9 +3,10 @@ import "./ProductCard.css";
 
 type Props = {
   product: Product;
+  onAdd: () => void;
 };
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, onAdd }: Props) {
   return (
     <div className="card">
       <img src={product.image} alt={product.title} />
@@ -18,7 +19,9 @@ export default function ProductCard({ product }: Props) {
 
       <p className="price">${product.price}</p>
 
-      <button className="btn">Add to Cart</button>
+      <button className="btn" onClick={onAdd}>
+        Add to Cart
+      </button>
     </div>
   );
 }
